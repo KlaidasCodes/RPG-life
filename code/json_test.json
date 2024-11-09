@@ -1,0 +1,29 @@
+{
+    "Alice": {
+        "password": "securepass123",
+        "age": 28,
+        "skills": {
+            "reading": 45,
+            "coding": 75,
+            "gym": 30
+        }
+    },
+    "Bob": {
+        "password": "mysecret456",
+        "age": 34,
+        "skills": {
+            "reading": 60,
+            "coding": 40,
+            "gym": 20
+        }
+    },
+    "Charlie": {
+        "password": "pass789",
+        "age": 25,
+        "skills": {
+            "reading": 50,
+            "coding": 65,
+            "gym": 10
+        }
+    }
+}
