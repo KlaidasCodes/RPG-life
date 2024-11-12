@@ -2,6 +2,8 @@ from classes_my import *
 import os
 import hashlib
 import binascii
+import string
+import secrets
 
 
 def update_database(database, name, pw, age):
@@ -104,3 +106,16 @@ def byte_to_hex(string_in_bytes):
     string_hex = binascii.hexlify(string_in_bytes).decode()
     return string_hex
 
+
+def current_level_and_exp(username, skill):
+    """takes username and skill as input and returns the current level and exp"""
+    pass
+
+def exp_requirement_increment(current_exp_req: int):
+    """takes current exp requirement as input and outputs next level's exp required"""
+    return current_exp_req*1.3
+
+def generate_random_pw():
+    characters = string.digits + string.ascii_letters + string.punctuation
+    generated_password = "".join(secrets.choice(characters) for i in range(16))
+    return generated_password
