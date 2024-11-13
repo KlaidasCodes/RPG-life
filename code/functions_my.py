@@ -64,12 +64,9 @@ def register_or_create_account(database, end_question):
 
 
 def compare_hashed_passwords(username, password, database):
-    """takes user's username and password. Finds the username, hashes the password with SHA-256 (using existing salt). 
+    """takes user's username and password. Hashes the password with SHA-256 (using existing salt that it extracts from the pw in DB). 
     Compares hashed inputted password with the hashed password in the database. Returns bool True if match."""
-    if username not in database:
-        print("The user does not exist, try again.")
-    else:
-        password_from_database_hex = database[username]["password"]
+    password_from_database_hex = database[username]["password"]
 
     # this password is already hashed, now we need to convert the inputted password and compare.
     # we need to extract the first 16 bytes (the salt) from the database pw and use it to hash the inputted pw
@@ -90,8 +87,7 @@ def hashing_function(password, salt=None):
         salt = os.urandom(16)
     elif len(salt) != 16:
         raise ValueError("The salt must be 16 bytes long")
-    else:
-        hashed_password_byte = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)
+    hashed_password_byte = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)
     return salt+hashed_password_byte
 
 
