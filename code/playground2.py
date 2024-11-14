@@ -2,51 +2,66 @@ import os
 import binascii
 import hashlib
 import json
+from tkinter import *
+from PIL import Image, ImageTk
 
 
-def byte_to_hex(string_in_bytes):
-    string_hex = binascii.hexlify(string_in_bytes).decode()
-    return string_hex
+LIGHT_ORANGE = "#ffbc5c"
+LIGHTER_ORANGE = "#EBDDC9"
 
-def hex_to_byte(string_in_hex):
-    """takes a hex formatted string and converts it to bytes"""
-    string_bytes = binascii.unhexlify(string_in_hex)
-    return string_bytes
+def draw_rounded_rectangle(canvas, x1, y1, x2, y2, radius=30, **kwargs):
+    """takes input top left and bottom right corners (coordinates relative to parent's top left corner)
+    and draws a rectangle with corners rounded to radius=30(by default). Can customize color and stuff."""
+    canvas.create_arc(x1, y1, x1 + 2*radius, y1 + 2*radius, start=90, extent=90, outline="", style="pieslice", **kwargs)
+    canvas.create_arc(x2 - 2*radius, y1, x2, y1 + 2*radius, start=0, extent=90, outline="", style="pieslice", **kwargs)
+    canvas.create_arc(x1, y2 - 2*radius, x1 + 2*radius, y2, start=180, extent=90, outline="", style="pieslice", **kwargs)
+    canvas.create_arc(x2 - 2*radius, y2 - 2*radius, x2, y2, start=270, extent=90, outline="", style="pieslice", **kwargs)
 
-def hashing_function(password, salt=None):
-    """Takes a password as input and hashes it either with a default salt which would be random 16-bytes
-    or use a custom salt which could be extracted from the password we're comparing this hashed pw to.
-    Returns BYTES salt+hashed password as one output to be stored"""
-    if salt == None:
-        salt = os.urandom(16)
-    elif len(salt) != 16:
-        raise ValueError("The salt must be 16 bytes long")
-    hashed_password_byte = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)
-    return salt+hashed_password_byte
+    # and now connect those arcs with actual sides of a rectangle
+    canvas.create_rectangle(x1 + radius, y1, x2 - radius, y2, outline="", **kwargs)
+    canvas.create_rectangle(x1, y1 + radius, x1 + radius, y2 - radius, outline="", **kwargs)
+    canvas.create_rectangle(x2 - radius, y1 + radius, x2, y2 - radius, outline="", **kwargs)
 
-def compare_hashed_passwords(username, password, database):
-    """takes user's username and password. Finds the username, hashes the password with SHA-256 (using existing salt). 
-    Compares hashed inputted password with the hashed password in the database. Returns bool True if match."""
-    if username not in database:
-        print("The user does not exist, try again.")
-    else:
-        password_from_database_hex = database[username]["password"]
-        print(password_from_database_hex)
 
-    # this password is already hashed, now we need to convert the inputted password and compare.
-    # we need to extract the first 16 bytes (the salt) from the database pw and use it to hash the inputted pw
-    # the password will be in hex form in the json, so we can convert it to bytes and extract the first 16 bytes
-    hashed_password_byte = hex_to_byte(password_from_database_hex)
-    salt_extracted_byte = hashed_password_byte[0:16]
-    # and now we hash the inputted password with this salt
-    hashed_inputted_password_byte = hashing_function(password, salt_extracted_byte)
-    return hashed_inputted_password_byte == hashed_password_byte
+def close_window(window):
+    window.quit()
+
 
 
 with open("./database_main.json", mode="r+") as file:
-            temp_database = json.load(file)
+            main_database = json.load(file)
+
+main_window = Tk()
+
+main_window.config(width=800, height=600, bg=LIGHT_ORANGE)
+main_window.minsize(width=800, height=600)
+for i in range(20):
+    main_window.columnconfigure(i, weight=1)
+    main_window.rowconfigure(i, weight=1)
+
+corner = Canvas(main_window, width=1, height=1, bg=LIGHT_ORANGE, bd=0, highlightthickness=0)
+corner.grid(column=0, row=0)
+
+main_left_big_rectangle_canvas = Canvas(main_window, width=300, height=420, bg=LIGHT_ORANGE, bd=0, highlightthickness=0)
+main_left_big_rectangle_canvas.grid(column=1, columnspan=8, row=3, rowspan=14, sticky="w", padx=20)
+main_left_big_rectangle_canvas_rectangle = draw_rounded_rectangle(main_left_big_rectangle_canvas, 0, 0, 300, 420, fill=LIGHTER_ORANGE)
+
+main_left_small_rectangle_canvas = Canvas(main_window, width=300, height=60, bg=LIGHT_ORANGE, bd=0, highlightthickness=0)
+main_left_small_rectangle_canvas.grid(column=1, columnspan=8, row=17, rowspan=2, sticky="nw", padx=20, pady=20)
+main_left_small_rectangle_canvas_rectangle = draw_rounded_rectangle(main_left_small_rectangle_canvas, 0, 0, 300, 60, radius=15, fill=LIGHTER_ORANGE)
+
+main_right_big_rectangle_canvas = Canvas(main_window, width=420, height=420, bg=LIGHT_ORANGE, bd=0, highlightthickness=0)
+main_right_big_rectangle_canvas.grid(column=9, columnspan=11, row=3, rowspan=14, sticky="e", padx=20)
+main_right_big_rectangle_canvas_rectangle = draw_rounded_rectangle(main_right_big_rectangle_canvas, 0, 0, 420, 420, fill=LIGHTER_ORANGE)
+
+main_name_canvas = Canvas(main_window, width=200, height=60, bg=LIGHTER_ORANGE, bd=0, highlightthickness=0)
+main_name_canvas.grid(column=2, columnspan=6, row=14, rowspan=2)
+main_name_canvas.create_text(100, 30, text="Maximus", font=("Futura Display", 44))
 
 
 
-passwords_match = compare_hashed_passwords("Charlie", "pass789", temp_database)
-print(passwords_match)
+
+
+
+main_window.after(2000, lambda: close_window(main_window))
+mainloop()
