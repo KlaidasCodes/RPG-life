@@ -215,7 +215,7 @@ main_window.withdraw()
 # NEW OR EXISTING USER WINDOW ###########################################################################
 new_or_existing_page = Toplevel(main_window)
 new_or_existing_page.title("New or existing user")
-new_or_existing_page.config(width=1000, height=800, bg=LIGHT_ORANGE)
+new_or_existing_page.config(width=800, height=600, bg=LIGHT_ORANGE)
 new_or_existing_page.minsize(width=800, height=600)
 currently_open_window = new_or_existing_page
 
@@ -328,13 +328,15 @@ go_back_button_canvas_rectangle = draw_rounded_rectangle(go_back_button_canvas, 
 go_back_button_canvas.create_text(80, 60, text="<", font=("Futura Display", 70))
 go_back_button_canvas.bind("<Button-1>", go_back_button_clicked)
 
+# need to add red text that would say the warnings, like "age must be numeric"
+
 
 
 
 
 # EXISTING USER WINDOW ###########################################################################
 log_in_window = Toplevel(main_window)
-log_in_window.config(width=1000, height=800, bg=LIGHT_ORANGE)
+log_in_window.config(width=800, height=600, bg=LIGHT_ORANGE)
 log_in_window.minsize(width=800, height=600)
 log_in_window.withdraw()
 
@@ -386,4 +388,12 @@ log_in_go_back_button_canvas.bind("<Button-1>", log_in_back_button_clicked)
 
 
 # new_or_existing_page.after(4000, lambda: close_window(new_or_existing_page))
+
+main_window.config(width=800, height=600, bg=LIGHT_ORANGE)
+main_window.minsize(width=800, height=600)
+for i in range(20):
+    main_window.columnconfigure(i, weight=1)
+    main_window.rowconfigure(i, weight=1)
+
+
 mainloop()
