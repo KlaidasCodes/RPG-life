@@ -1,53 +1,66 @@
-import json
-from functions import *
-from classes import *
+import tkinter as tk
+from PIL import Image, ImageTk
 
-# app that would essentially make my life an RPG game.
-# Different stats with exp points, i can add those points whenever i complete a task
-# or something in it. The final version would probably be best on a phone, but
-# first just build it on a computer.
+PLACEHOLDER_LEVEL = 3
+PLACEHOLDER_GENDER = "male"
 
 
-main_database = {}
+avatars = {
+    "male": {
+        "1": "./images/Avatars/Male/male1.png",
+        "2-5": "./images/Avatars/Male/male2-5.png",
+        "5-10": "./images/Avatars/Male/male5-10.png",
+        "10-15": "./images/Avatars/Male/male10-15.png",
+        "15-30": "./images/Avatars/Male/male15-30.png",
+        "30+": "./images/Avatars/Male/male30+.png"
+    },
+    "female": {
+        "1": "./images/Avatars/Female/female1.png",
+        "2-5": "./images/Avatars/Female/female2-5.png",
+        "5-10": "./images/Avatars/Female/female5-10.png",
+        "10-15": "./images/Avatars/Female/female10-15.png",
+        "15-30": "./images/Avatars/Female/female15-30.png",
+        "30+": "./images/Avatars/Female/female30+.png"
+    }
+}
 
-# to allow for multiple accounts (idk why), in the database the keys will be player names
-# and then each of those keys will have one more dict or something as its value,
-# containing skills and their exp points.
-
-# main_database = { "Klaidas": {"reading: 18,
-#                               "gym": 56},
-#                   "Name2": {"skill1": 34,
-#                             "skill2": 92} }
-# essentially like this. Easy to store and navigate. Json format, probably.
-
-# EACH PLAYER COULD BE A CLASS INSTEAD??? AND THE METHODS COULD BE SOMETHING LIKE
-# KLAIDAS_PLAYER.ADD_EXP("READING"). VERY EASY TO STORE AND KEEP TRACK OF THIS WAY.
-
-
-AFTER_Q = "\n\t-"
-# TODO-1 Create a "create your character" page where we get the basic info on the user.
-# Later add log in functionality too, practice that side of system set-up
-# For now no animations or anything, just plain code with basic functionality
-
-
-# prompt to either log in or create an account (for now store the data insecurely, doesn't
-# matter. Set up hashed password comparison system later
-
-
-# initialize function when program starts to register/log in a player:
-
-if __name__ == "__main__":
-    app_running = True
-    while app_running:
-        # makes sure the user is logged in or registered
-        main_database, logged_in = register_or_create_account(database=main_database, end_question=AFTER_Q)
-        # now we have selected a person
-
+def pick_avatars_path(level, sex, avatar_dict):
+    if level == 1:
+        return avatar_dict[sex]["1"]
+    elif 2 <= level < 5:
+        return avatar_dict[sex]["2-5"]
+    elif 5 <= level < 10:
+        return avatar_dict[sex]["5-10"]
+    elif 10 <= level < 15:
+        return avatar_dict[sex]["10-15"]
+    elif 15 <= level < 30:
+        return avatar_dict[sex]["15-30"]
+    else:
+        return avatar_dict[sex]["30+"]
+    
 
 
+root = tk.Tk()
+
+avatar_path = pick_avatars_path(PLACEHOLDER_LEVEL, PLACEHOLDER_GENDER, avatars)
+
+avatar = Image.open(avatar_path)
+resized_avatar = avatar.resize((280, 340), Image.LANCZOS)
+avatar_image = ImageTk.PhotoImage(resized_avatar)
 
 
 
 
-        app_running = False
 
+canvas_test = tk.Canvas(width=800, height=800)
+canvas_test.pack()
+
+canvas_test.create_image(400, 400, image = avatar_image)
+canvas_test.image = avatar_image
+
+
+
+
+
+
+tk.mainloop()
