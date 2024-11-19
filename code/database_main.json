@@ -1,29 +1,35 @@
 {
     "Alice": {
-        "password": "securepass123",
+        "password": "045f12eeaa01333a42a3232c26e63e2d0d8d4079999e48ceaca03fd8d065a483b6a5e6693a7305a860b66c656d45181d",
+        "password_unhashed": "securepass123",
         "age": 28,
         "skills": {
-            "reading": 45,
-            "coding": 75,
-            "gym": 30
-        }
+            "reading": {"exp": 60, "level": 3},
+            "coding": {"exp": 75, "level": 1},
+            "gym": {"exp": 13, "level": 5}
+        },
+        "sex": "female"
     },
     "Bob": {
-        "password": "mysecret456",
+        "password": "2fbc15f1cc05111d0c89f7f5370c5c70bed9ce8c50de22118ebbf88872e30dccfbc71a64092fe0df60d110c96a996809",
+        "password_unhashed": "mysecret456",
         "age": 34,
         "skills": {
-            "reading": 60,
-            "coding": 40,
-            "gym": 20
-        }
+            "reading": {"exp": 60, "level": 3},
+            "coding": {"exp": 75, "level": 1},
+            "gym": {"exp": 13, "level": 5}
+        },
+        "sex": "male"
     },
     "Charlie": {
-        "password": "pass789",
+        "password": "459a0fa4f361e3ff3e9077e9bdc88eb6f397a4dee1e098890142d66b42da57c371f98b31419b24dd1e1b4891a56b6c49",
+        "password_unhashed": "pass789",
         "age": 25,
         "skills": {
-            "reading": 50,
-            "coding": 65,
-            "gym": 10
-        }
+            "reading": {"exp": 60, "level": 3},
+            "coding": {"exp": 75, "level": 1},
+            "gym": {"exp": 13, "level": 5}
+        },
+        "sex": "male"
     }
 }
