@@ -1,13 +1,14 @@
 class Human:
-    def __init__(self, name, age, password):
+    def __init__(self, name, age, password, sex):
         self.name = name
         self.age = age
         self.skills = {}
-        self.pw = password
+        self.password = password
         self.total_exp = 0
+        self.sex = sex
 
-    def add_skill(self, skill, exp=0):
-        self.skills[skill] = exp
+    def add_skill(self, skill, exp=0, level=1):
+        self.skills[skill.skill] = {"exp": skill.exp, "level": skill.level}
 
     def update_total_exp(self):
         for skill in self.skills:
