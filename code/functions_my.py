@@ -20,7 +20,8 @@ def update_database(database, name, pw, age):
             "password": new_human.pw,  # to be hashed in the future with a salt
             "age": new_human.age,
             # any other upcoming information like a new dictionary for skills
-            "skills": new_human.skills
+            "skills": new_human.skills,
+            "total_exp": new_human.update_total_exp()
         }
         print(f"Database has been updated with a new player: {new_human.name}.\n")
         return database
